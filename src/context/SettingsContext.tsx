@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
-
-type Currency = "CAD" | "AED" | "INR";
+import { DEFAULT_BUDGET, DEFAULT_CURRENCY } from "../constants";
+import type { Currency } from "../constants";
 
 interface SettingsContextType {
   budget: number;
@@ -21,8 +21,9 @@ export function useSettings() {
 }
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const [budget, setBudget] = useState(0);
-  const [defaultCurrency, setDefaultCurrency] = useState<Currency>("CAD");
+  const [budget, setBudget] = useState(DEFAULT_BUDGET);
+  const [defaultCurrency, setDefaultCurrency] =
+    useState<Currency>(DEFAULT_CURRENCY);
 
   return (
     <SettingsContext.Provider
