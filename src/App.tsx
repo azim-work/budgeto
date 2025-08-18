@@ -1,17 +1,19 @@
+import { Routes, Route, Link } from "react-router-dom";
 import SettingsPage from "./pages/SettingsPage";
-import { useSettings } from "./context/SettingsContext";
+import HomePage from "./pages/HomePage";
 
 function App() {
-  const { budget, defaultCurrency } = useSettings();
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>Budgeto</h1>
-      <p>Seamlessly track your travel budget and expenses.</p>
-      <p>
-        Budget: {budget} {defaultCurrency}
-      </p>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/settings">Settings</Link>
+      </nav>
 
-      <SettingsPage />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+      </Routes>
     </div>
   );
 }
