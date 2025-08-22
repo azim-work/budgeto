@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { DEFAULT_BUDGET, DEFAULT_CURRENCY } from "../constants";
 import type { Currency } from "../constants";
@@ -21,9 +21,27 @@ export function useSettings() {
 }
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const [budget, setBudget] = useState(DEFAULT_BUDGET);
-  const [defaultCurrency, setDefaultCurrency] =
-    useState<Currency>(DEFAULT_CURRENCY);
+  // budget will load from localStorage, or fallback to default
+  const [budget, setBudget] = useState(() => {
+    const stored = localStorage.getItem("budget");
+    return stored ? Number(stored) : DEFAULT_BUDGET;
+  });
+
+  // defaultCurrency will load from localStorage, or fallback to default
+  const [defaultCurrency, setDefaultCurrency] = useState(() => {
+    const stored = localStorage.getItem("defaultCurrency");
+    return stored ? (stored as Currency) : DEFAULT_CURRENCY;
+  });
+
+  // Save budget to local storage on change
+  useEffect(() => {
+    localStorage.setItem("budget", String(budget));
+  }, [budget]);
+
+  // Save defaultCurrency to local storange on change
+  useEffect(() => {
+    localStorage.setItem("defaultCurrency", defaultCurrency);
+  }, [defaultCurrency]);
 
   return (
     <SettingsContext.Provider
