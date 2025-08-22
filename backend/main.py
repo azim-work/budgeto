@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 import psycopg2
 from psycopg2 import OperationalError
+from dotenv import load_dotenv
+import os
 
+# load environment variables
+load_dotenv()
 
 app = FastAPI()
 
@@ -15,13 +19,14 @@ async def root():
 
 
 def can_reach_db():
+
     try:
         conn = psycopg2.connect(
-            dbname="budgeto",
-            user="postgres",
-            password="password",
-            host="localhost",
-            port="5432",
+            dbname=os.getenv("DB_NAME"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            host=os.getenv("DB_HOST"),
+            port=os.getenv("DB_PORT", "5432"),  # Default PostgreSQL port
         )
         conn.close()
         return True
