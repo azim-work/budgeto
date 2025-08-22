@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment variables
+.env
+
+# macOS system files
+.DS_Store
+
+
+# pytest / coverage / test logs
+*.log
+.coverage
+.cache/
+pytest_cache/
+
+# MyPy / Pylint / Ruff / Bandit reports
+.mypy_cache/
+.pyright/
+.dmypy.json
+ruff_cache/
+
+# Python egg and build artifacts
+*.egg
+*.egg-info/
+dist/
+build/
+*.spec
