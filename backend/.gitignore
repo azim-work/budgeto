@@ -28,3 +28,5 @@ ruff_cache/
 dist/
 build/
 *.spec
+
+.venv/
