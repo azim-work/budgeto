@@ -1,35 +1,14 @@
-from fastapi import FastAPI
-import psycopg2
-from psycopg2 import OperationalError
-from dotenv import load_dotenv
-import os
-
-# load environment variables
-load_dotenv()
+from fastapi import FastAPI, Depends
+from db import get_session
+from sqlalchemy.orm import Session
+from routers.settings import router as settings_router
 
 app = FastAPI()
 
 
 @app.get("/health")
-async def root():
-    # check database connection
-    if not can_reach_db():
-        return "FAILURE"
+def root(db: Session = Depends(get_session)):
     return "OK"
 
 
-def can_reach_db():
-
-    try:
-        conn = psycopg2.connect(
-            dbname=os.getenv("DB_NAME"),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD"),
-            host=os.getenv("DB_HOST"),
-            port=os.getenv("DB_PORT", "5432"),  # Default PostgreSQL port
-        )
-        conn.close()
-        return True
-    except OperationalError as e:
-        print(e)
-        return False
+app.include_router(settings_router, prefix="/settings", tags=["Settings"])
