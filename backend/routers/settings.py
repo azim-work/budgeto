@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 router = APIRouter()
 
 
-@router.get("/", response_model=SettingsSchema)
+@router.get("", response_model=SettingsSchema)
 def get_settings(db: Session = Depends(get_session)):
     settings = db.query(SettingsModel).first()
     if not settings:
@@ -16,7 +16,7 @@ def get_settings(db: Session = Depends(get_session)):
     return settings
 
 
-@router.put("/", response_model=SettingsSchema)
+@router.put("", response_model=SettingsSchema)
 def update_settings(
     updated_settings: SettingsSchema, db: Session = Depends(get_session)
 ):
