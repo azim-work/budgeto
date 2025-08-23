@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useSettings } from "../context/SettingsContext";
 import { CONVERSION_RATES, type Currency } from "../constants";
+import type { Settings } from "@/context/SettingsContext.tsx";
 
 import { SelectWithLabel } from "@/components/SelectWithLabel";
 import { InputWithLabel } from "@/components/InputWithLabel";
 import { Button } from "@/components/ui/button";
+import toast from "react-hot-toast";
+
 import {
   DialogDescription,
   DialogFooter,
@@ -17,22 +20,32 @@ interface SettingsContentProps {
 }
 
 export default function SettingsContent({ onClose }: SettingsContentProps) {
-  const { budget, setBudget, defaultCurrency, setDefaultCurrency } =
-    useSettings();
+  const { budget, defaultCurrency, updateSettings } = useSettings();
 
   const [localBudget, setLocalBudget] = useState(budget);
   const [localCurrency, setLocalCurrency] = useState(defaultCurrency);
   const [error, setError] = useState("");
 
-  function handleSave() {
+  async function handleSave() {
     // validate
     if (localBudget <= 0) {
       setError("Budget must be greater than 0");
       return;
     }
-    setBudget(localBudget);
-    setDefaultCurrency(localCurrency);
-    onClose();
+
+    const newSettings: Settings = {
+      budget: localBudget,
+      defaultCurrency: localCurrency,
+    };
+
+    try {
+      await updateSettings(newSettings);
+      toast.success("Settings saved");
+      onClose();
+    } catch (err) {
+      console.error("Failed to save settings: ", err);
+      setError("Failed to save settings");
+    }
   }
 
   return (
