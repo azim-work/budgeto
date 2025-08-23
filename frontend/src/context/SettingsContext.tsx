@@ -2,18 +2,12 @@ import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { DEFAULT_BUDGET, DEFAULT_CURRENCY } from "../constants";
 import type { Currency } from "../constants";
-import axios from "axios";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-export interface Settings {
-  budget: number;
-  defaultCurrency: Currency;
-}
+import { fetchSettings, saveSettings } from "../lib/api";
+import type { Settings } from "../lib/api";
 
 interface SettingsContextType extends Settings {
-  setBudget: (value: number) => void;
-  setDefaultCurrency: (value: Currency) => void;
+  readonly budget: number;
+  readonly defaultCurrency: Currency;
   updateSettings: (settings: Settings) => Promise<void>;
 }
 
@@ -34,29 +28,34 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   // runs only once, after mount
   useEffect(() => {
-    const localBudget = localStorage.getItem("budget");
-    const localDefaultCurrency = localStorage.getItem("defaultCurrency");
+    const storedBudget = parseFloat(localStorage.getItem("budget") || "");
+    const storedDefaultCurrency = localStorage.getItem(
+      "defaultCurrency"
+    ) as Currency | null;
+
+    if (!isNaN(storedBudget)) setBudget(storedBudget);
+    if (storedDefaultCurrency) setDefaultCurrency(storedDefaultCurrency);
 
     // set state if available in local storage
-    if (localBudget && localDefaultCurrency) {
-      setBudget(Number(localBudget));
-      setDefaultCurrency(localDefaultCurrency as Currency);
+    if (storedBudget && setDefaultCurrency) {
+      setBudget(Number(storedBudget));
+      setDefaultCurrency(storedDefaultCurrency as Currency);
     }
   }, []);
 
   // then, refresh data from backend
   useEffect(() => {
-    async function fetchSettings() {
+    async function getSettings() {
       try {
-        const response = await axios.get<Settings>(`${API_BASE_URL}/settings`);
-        const data = response.data;
+        const data = await fetchSettings();
+
         if (data.budget) setBudget(data.budget);
         if (data.defaultCurrency) setDefaultCurrency(data.defaultCurrency);
       } catch (err) {
         console.error("Failed to fetch settings from backend:", err);
       }
     }
-    fetchSettings();
+    getSettings();
   }, []);
 
   async function updateSettings(newSettings: Settings) {
@@ -71,7 +70,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
     // Call api
     try {
-      await axios.put(`${API_BASE_URL}/settings`, newSettings);
+      await saveSettings(newSettings);
     } catch (err) {
       console.error("Failed to update settings: ", err);
 
