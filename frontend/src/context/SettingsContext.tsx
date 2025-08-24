@@ -79,6 +79,9 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       setDefaultCurrency(previousSettings.defaultCurrency);
       localStorage.setItem("budget", previousSettings.budget.toString());
       localStorage.setItem("defaultCurrency", previousSettings.defaultCurrency);
+
+      // Let component handle error & toast
+      throw err;
     }
   }
 
@@ -86,9 +89,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     <SettingsContext.Provider
       value={{
         budget,
-        setBudget,
         defaultCurrency,
-        setDefaultCurrency,
         updateSettings,
       }}
     >

@@ -44,7 +44,7 @@ export default function SettingsContent({ onClose }: SettingsContentProps) {
       onClose();
     } catch (err) {
       console.error("Failed to save settings: ", err);
-      setError("Failed to save settings");
+      toast.error("Failed to save settings");
     }
   }
 
