@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { DEFAULT_BUDGET, DEFAULT_CURRENCY } from "../constants";
 import type { Currency } from "../constants";
 import { fetchSettings, saveSettings } from "../lib/api";
-import type { Settings } from "../lib/api";
+import type { Settings } from "@/types";
 
 interface SettingsContextType extends Settings {
   readonly budget: number;

@@ -1,12 +1,7 @@
 import axios from "axios";
-import type { Currency } from "../constants";
+import type { Settings, Expense } from "@/types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-export interface Settings {
-  budget: number;
-  defaultCurrency: Currency;
-}
 
 export async function fetchSettings(): Promise<Settings> {
   const res = await axios.get<Settings>(`${API_BASE_URL}/settings`);
@@ -15,4 +10,9 @@ export async function fetchSettings(): Promise<Settings> {
 
 export async function saveSettings(settings: Settings): Promise<void> {
   await axios.put(`${API_BASE_URL}/settings`, settings);
+}
+
+export async function fetchExpenses(): Promise<Expense[]> {
+  const res = await axios.get<Expense[]>(`${API_BASE_URL}/expenses`);
+  return res.data;
 }

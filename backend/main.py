@@ -1,8 +1,9 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from db import get_session
+from db.session import get_session
 from sqlalchemy.orm import Session
 from routers.settings import router as settings_router
+from routers.expenses import router as expenses_router
 import config
 
 app = FastAPI()
@@ -22,3 +23,4 @@ def root(db: Session = Depends(get_session)):
 
 
 app.include_router(settings_router, prefix="/settings", tags=["Settings"])
+app.include_router(expenses_router, prefix="/expenses", tags=["Expenses"])

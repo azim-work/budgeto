@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from models import DefaultCurrencyEnum
 from pydantic.alias_generators import to_camel
+from datetime import date
 
 
 class Settings(BaseModel):
@@ -11,3 +12,16 @@ class Settings(BaseModel):
         from_attributes = True  # Enables SQLAlchemy → JSON conversion
         alias_generator = to_camel
         validate_by_name = True
+
+
+class Expense(BaseModel):
+    id: int
+    description: str
+    amount: float
+    date: date
+    currency: str
+    category: str
+
+    class Config:
+        alias_generator = to_camel
+        allow_population_by_field_name = True

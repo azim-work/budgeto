@@ -1,7 +1,7 @@
 from models import Settings as SettingsModel
 from schemas import Settings as SettingsSchema
 from fastapi import APIRouter, Depends, HTTPException
-from db import get_session
+from db.session import get_session
 from sqlalchemy.orm import Session
 
 

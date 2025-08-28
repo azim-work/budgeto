@@ -1,3 +1,4 @@
+import { ExpensesTable } from "@/components/ExpensesTable";
 import { useSettings } from "../context/SettingsContext";
 
 function HomePage() {
@@ -8,6 +9,7 @@ function HomePage() {
 
       <div className="text-lg font-semibold">
         {budget} {defaultCurrency}
+        <ExpensesTable />
       </div>
     </div>
   );
