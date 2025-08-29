@@ -1,5 +1,5 @@
 import { Button } from "./ui/button";
-import { Settings } from "lucide-react";
+import { Settings, UserRoundCog } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import SettingsContent from "@/components/SettingsContent";
 import { useState } from "react";
@@ -8,6 +8,13 @@ import { LogOut } from "lucide-react";
 
 import AddExpenseForm from "./AddExpenseForm";
 import { useAuth } from "@/context/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export default function Header() {
   const { logout } = useAuth();
@@ -36,24 +43,32 @@ export default function Header() {
             <AddExpenseForm onClose={() => setAddExpenseDialogOpen(false)} />
           </DialogContent>
         </Dialog>
-        {/* Settings  */}
-        <Dialog open={settingsDialogOpen} onOpenChange={setSettingsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline">
-              <Settings className="w-4 h-4" />
-              <span className="sr-only sm:not-sr-only sm:ml-1">Settings</span>
-            </Button>
-          </DialogTrigger>
 
+        {/* Dropdown with settings and logout */}
+        <Dialog open={settingsDialogOpen} onOpenChange={setSettingsDialogOpen}>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar className="cursor-pointer">
+                <AvatarFallback>
+                  <UserRoundCog className="w-6 h-6 " />
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onSelect={() => setSettingsDialogOpen(true)}>
+                <Settings className="w-4 h-4 mr-2" />
+                Settings
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={logout}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <DialogContent>
             <SettingsContent onClose={() => setSettingsDialogOpen(false)} />
           </DialogContent>
         </Dialog>
-        {/* Logout */}
-        <Button variant="outline" onClick={logout}>
-          <LogOut className="w-4 h-4" />
-          <span className="sr-only sm:not-sr-only sm:ml-1">Logout</span>
-        </Button>
       </nav>
     </header>
   );
