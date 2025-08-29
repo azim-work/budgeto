@@ -22,6 +22,11 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+def index():
+    return {"status": "ok", "message": "Budgeto API"}
+
+
 @app.get("/health")
 def root(db: Session = Depends(get_session)):
     return "OK"
@@ -34,6 +39,7 @@ async def require_auth_cookie(request: Request, call_next):
         return await call_next(request)
 
     allowed_paths = [
+        "/",
         "/auth/login",
         "/auth/logout",
         "/health",
