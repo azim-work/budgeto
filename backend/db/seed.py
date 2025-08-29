@@ -16,15 +16,7 @@ if not db.query(Settings).first():
 
 # STEP 4: Insert some expenses if none exist
 if not db.query(Expense).first():
-    sample_expenses = [
-        Expense(
-            description="Test",
-            amount=200,
-            currency=DefaultCurrencyEnum.CAD,
-            category=ExpenseCategory.TRAVEL,
-            date=datetime.date(2025, 8, 1),
-        ),
-    ]
+    sample_expenses = []
     db.add_all(sample_expenses)
     print("✔️ Added sample expenses")
 
