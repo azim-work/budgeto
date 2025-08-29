@@ -14,8 +14,7 @@ class Settings(BaseModel):
         validate_by_name = True
 
 
-class Expense(BaseModel):
-    id: int
+class ExpenseCreate(BaseModel):
     description: str
     amount: float
     date: date
@@ -25,3 +24,7 @@ class Expense(BaseModel):
     class Config:
         alias_generator = to_camel
         allow_population_by_field_name = True
+
+
+class ExpenseRead(ExpenseCreate):
+    id: int
