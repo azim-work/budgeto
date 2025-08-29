@@ -4,9 +4,13 @@ import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import SettingsContent from "@/components/SettingsContent";
 import { useState } from "react";
 import { CirclePlus } from "lucide-react";
+import { LogOut } from "lucide-react";
+
 import AddExpenseForm from "./AddExpenseForm";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
+  const { logout } = useAuth();
   const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
   const [addExpenseDialogOpen, setAddExpenseDialogOpen] = useState(false);
 
@@ -45,6 +49,11 @@ export default function Header() {
             <SettingsContent onClose={() => setSettingsDialogOpen(false)} />
           </DialogContent>
         </Dialog>
+        {/* Logout */}
+        <Button variant="outline" onClick={logout}>
+          <LogOut className="w-4 h-4" />
+          <span className="sr-only sm:not-sr-only sm:ml-1">Logout</span>
+        </Button>
       </nav>
     </header>
   );

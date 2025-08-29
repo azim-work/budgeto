@@ -5,10 +5,13 @@ description = "Backend for Budgeto: seamlessly track your budget and expenses."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "bcrypt>=4.3.0",
     "fastapi>=0.116.1",
+    "passlib>=1.7.4",
     "psycopg2-binary>=2.9.10",
     "pydantic>=2.11.7",
     "python-dotenv>=1.1.1",
+    "python-jose>=3.5.0",
     "sqlalchemy>=2.0.43",
     "uvicorn>=0.35.0",
 ]
