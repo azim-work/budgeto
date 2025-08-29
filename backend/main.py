@@ -29,6 +29,10 @@ def root(db: Session = Depends(get_session)):
 
 @app.middleware("http")
 async def require_auth_cookie(request: Request, call_next):
+    # Allow OPTIONS preflight requests without auth
+    if request.method == "OPTIONS":
+        return await call_next(request)
+
     allowed_paths = [
         "/auth/login",
         "/auth/logout",
