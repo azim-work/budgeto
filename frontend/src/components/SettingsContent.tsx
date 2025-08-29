@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSettings } from "../context/SettingsContext";
 import { CONVERSION_RATES, type Currency } from "../constants";
-import type { Settings } from "@/context/SettingsContext.tsx";
+import type { Settings } from "@/types";
 
 import { SelectWithLabel } from "@/components/SelectWithLabel";
 import { InputWithLabel } from "@/components/InputWithLabel";
