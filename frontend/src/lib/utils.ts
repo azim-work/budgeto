@@ -18,10 +18,23 @@ export function convertAmountBetweenCurrencies(
   return Number(converted.toFixed(decimals)).toFixed(decimals);
 }
 
-export function formatAmountWithCurrency(
+function formatAmountWithCurrency(
   amountStr: string,
   currency: Currency
 ): string {
   const symbol = CURRENCY_SYMBOLS[currency] || "";
   return `${symbol}${amountStr}`;
+}
+
+export function amountInDefaultCurrency(
+  amount: number,
+  amountCurrency: Currency,
+  defaultCurrency: Currency
+): string {
+  const amountInDefaultCurrency = convertAmountBetweenCurrencies(
+    amount,
+    amountCurrency,
+    defaultCurrency
+  );
+  return formatAmountWithCurrency(amountInDefaultCurrency, defaultCurrency);
 }

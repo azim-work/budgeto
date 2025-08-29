@@ -8,55 +8,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "./ui/button";
-import { CirclePlus } from "lucide-react";
-import { useState } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
-import AddExpenseForm from "./AddExpenseForm";
-import {
-  convertAmountBetweenCurrencies,
-  formatAmountWithCurrency,
-} from "@/lib/utils";
+import { amountInDefaultCurrency } from "@/lib/utils";
 import { useSettings } from "@/context/SettingsContext";
-import type { Currency } from "@/constants";
 
 export const ExpensesTable = () => {
   const { defaultCurrency } = useSettings();
   const { expenses } = useExpenses();
 
-  const [addExpenseDialogOpen, setAddExpenseDialogOpen] = useState(false);
-
-  const renderAmount = (amount: number, fromCurrency: Currency): string => {
-    const amountInDefaultCurrency = convertAmountBetweenCurrencies(
-      amount,
-      fromCurrency,
-      defaultCurrency
-    );
-    return formatAmountWithCurrency(amountInDefaultCurrency, defaultCurrency);
-  };
-
   return (
-    <>
-      <div className="flex justify-between">
-        <h1 className="mt-4">Expenses</h1>
-        <Dialog
-          open={addExpenseDialogOpen}
-          onOpenChange={setAddExpenseDialogOpen}
-        >
-          <DialogTrigger asChild>
-            <Button>
-              <CirclePlus className="w-4 h-4" />
-              <span className="sr-only sm:not-sr-only sm:ml-1">
-                Add Expense
-              </span>
-            </Button>
-          </DialogTrigger>
+    <div className="mt-10">
+      <div className="text-xl mb-4">Expenses</div>
 
-          <DialogContent>
-            <AddExpenseForm onClose={() => setAddExpenseDialogOpen(false)} />
-          </DialogContent>
-        </Dialog>
-      </div>
       <Table>
         {expenses.length === 0 && (
           <TableCaption className="text-left mt-4">
@@ -83,12 +45,16 @@ export const ExpensesTable = () => {
               <TableCell>{exp.category}</TableCell>
               <TableCell>{exp.description}</TableCell>
               <TableCell className="text-right">
-                {renderAmount(exp.amount, exp.currency)}
+                {amountInDefaultCurrency(
+                  exp.amount,
+                  exp.currency,
+                  defaultCurrency
+                )}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-    </>
+    </div>
   );
 };

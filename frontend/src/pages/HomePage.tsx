@@ -1,14 +1,11 @@
 import { ExpensesTable } from "@/components/ExpensesTable";
-import { useSettings } from "../context/SettingsContext";
+import { BudgetOverview } from "@/components/BudgetOverview";
 
 function HomePage() {
-  const { budget, defaultCurrency } = useSettings();
   return (
     <div style={{ padding: "2rem" }}>
-      <small className="text-sm font-medium leading-none">Budget</small>
-
       <div className="text-lg font-semibold">
-        {budget} {defaultCurrency}
+        <BudgetOverview />
         <ExpensesTable />
       </div>
     </div>
