@@ -13,11 +13,27 @@ import { CirclePlus } from "lucide-react";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import AddExpenseForm from "./AddExpenseForm";
+import {
+  convertAmountBetweenCurrencies,
+  formatAmountWithCurrency,
+} from "@/lib/utils";
+import { useSettings } from "@/context/SettingsContext";
+import type { Currency } from "@/constants";
 
 export const ExpensesTable = () => {
+  const { defaultCurrency } = useSettings();
   const { expenses } = useExpenses();
 
   const [addExpenseDialogOpen, setAddExpenseDialogOpen] = useState(false);
+
+  const renderAmount = (amount: number, fromCurrency: Currency): string => {
+    const amountInDefaultCurrency = convertAmountBetweenCurrencies(
+      amount,
+      fromCurrency,
+      defaultCurrency
+    );
+    return formatAmountWithCurrency(amountInDefaultCurrency, defaultCurrency);
+  };
 
   return (
     <>
@@ -54,7 +70,9 @@ export const ExpensesTable = () => {
               <TableHead>Date</TableHead>
               <TableHead>Category</TableHead>
               <TableHead>Description</TableHead>
-              <TableHead>Amount</TableHead>
+              <TableHead className="text-right">
+                Amount ({defaultCurrency})
+              </TableHead>
             </TableRow>
           </TableHeader>
         )}
@@ -64,8 +82,8 @@ export const ExpensesTable = () => {
               <TableCell className="font-medium">{exp.date}</TableCell>
               <TableCell>{exp.category}</TableCell>
               <TableCell>{exp.description}</TableCell>
-              <TableCell>
-                {exp.amount.toFixed(2)} {exp.currency}
+              <TableCell className="text-right">
+                {renderAmount(exp.amount, exp.currency)}
               </TableCell>
             </TableRow>
           ))}

@@ -103,7 +103,6 @@ export default function AddExpenseForm({ onClose }: AddExpenseFormProps) {
             placeholder="Select Currency"
             value={currency}
             onChange={(val) => setCurrency(val as Currency)}
-            className="flex-1"
           />
         </div>
         <SelectWithLabel
@@ -113,7 +112,6 @@ export default function AddExpenseForm({ onClose }: AddExpenseFormProps) {
           placeholder="Select Category"
           value={category}
           onChange={(val) => setCategory(val as ExpenseCategory)}
-          className="flex-1"
         />
         <DatePicker label="Expense Date" date={date} setDate={setDate} />
         <div className="min-h-[1.25rem] text-sm text-red-500">

@@ -1,9 +1,16 @@
 export const DEFAULT_BUDGET: number = 5000;
 
+// Relative to CAD
 export const CONVERSION_RATES = {
   CAD: 1,
   AED: 2.73,
   INR: 61.34,
+};
+
+export const CURRENCY_SYMBOLS = {
+  CAD: "$",
+  AED: "",
+  INR: "₹",
 };
 
 export type Currency = keyof typeof CONVERSION_RATES;
