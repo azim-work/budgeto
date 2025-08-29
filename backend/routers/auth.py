@@ -71,7 +71,7 @@ def login(data: LoginRequest, response: Response):
         value=access_token,
         httponly=True,
         secure=True,
-        samesite="strict",
+        samesite="none",  # Allows cookie to be set cross-site
         max_age=JWT_EXPIRY_SECONDS,
     )
     return {"message": "Login successful"}
