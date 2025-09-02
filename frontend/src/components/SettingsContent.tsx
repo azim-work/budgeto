@@ -14,6 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./ui/dialog";
+import { convertAmountBetweenCurrencies } from "@/lib/utils";
 
 interface SettingsContentProps {
   onClose: () => void;
@@ -48,6 +49,19 @@ export default function SettingsContent({ onClose }: SettingsContentProps) {
     }
   }
 
+  async function onCurrencyChange(newCurrency: string) {
+    // Compute new budget based on the new default currency
+    const newBudget = convertAmountBetweenCurrencies(
+      localBudget,
+      localCurrency,
+      newCurrency as Currency
+    );
+
+    setLocalCurrency(newCurrency as Currency);
+    // Set the new budget based on the new currency
+    setLocalBudget(Number(newBudget));
+  }
+
   return (
     <div className="grid gap-4">
       <DialogHeader className="pb-2">
@@ -62,7 +76,7 @@ export default function SettingsContent({ onClose }: SettingsContentProps) {
         options={Object.keys(CONVERSION_RATES)}
         placeholder="Select Default Currency"
         value={localCurrency}
-        onChange={(val) => setLocalCurrency(val as Currency)}
+        onChange={onCurrencyChange}
       />
       <InputWithLabel
         id="budget"
