@@ -11,23 +11,21 @@ import { useSettings } from "@/context/SettingsContext";
 import { CONVERSION_RATES, type Currency } from "@/constants";
 import {
   EXPENSE_CATEGORIES,
-  type Expense,
+  type Estimate,
   type ExpenseCategory,
 } from "@/types";
 import { DatePicker } from "./DatePicker";
 import { Button } from "./ui/button";
 import { toast } from "react-hot-toast";
-import { addExpense } from "@/lib/api";
-import { useExpenses } from "@/context/ExpensesContext";
+import { addEstimate } from "@/lib/api";
 import { useEstimates } from "@/context/EstimatesContext";
 
-interface AddExpenseFormProps {
+interface AddEstimateFormProps {
   onClose: () => void;
 }
 
-export default function AddExpenseForm({ onClose }: AddExpenseFormProps) {
+export default function AddEstimateForm({ onClose }: AddEstimateFormProps) {
   const { defaultCurrency } = useSettings();
-  const { refreshExpenses } = useExpenses();
   const { refreshEstimates } = useEstimates();
 
   const [description, setDescription] = useState("");
@@ -64,15 +62,13 @@ export default function AddExpenseForm({ onClose }: AddExpenseFormProps) {
         category: category,
         date: date?.toISOString().split("T")[0], // Format date as YYYY-MM-DD
       };
-      await addExpense(payload as Omit<Expense, "id">);
-      refreshExpenses();
-      // Also refresh estimates, since this expense will also be added to the expenses table
+      await addEstimate(payload as Omit<Estimate, "id">);
       refreshEstimates();
-      toast.success("Expense submitted");
+      toast.success("Estimate submitted");
       onClose();
     } catch (err) {
-      console.error("Failed to submit expense: ", err);
-      toast.error("Failed to submit expense");
+      console.error("Failed to submit estimate: ", err);
+      toast.error("Failed to submit estimate");
     }
   };
 
@@ -80,8 +76,8 @@ export default function AddExpenseForm({ onClose }: AddExpenseFormProps) {
     <form onSubmit={handleSubmit}>
       <div className="grid gap-4">
         <DialogHeader className="pb-2">
-          <DialogTitle>Add Expenses</DialogTitle>
-          <DialogDescription>Add a new expense.</DialogDescription>
+          <DialogTitle>Add Estimates</DialogTitle>
+          <DialogDescription>Add a new estimate.</DialogDescription>
         </DialogHeader>
         <InputWithLabel
           id="description"
@@ -117,7 +113,7 @@ export default function AddExpenseForm({ onClose }: AddExpenseFormProps) {
           value={category}
           onChange={(val) => setCategory(val as ExpenseCategory)}
         />
-        <DatePicker label="Expense Date" date={date} setDate={setDate} />
+        <DatePicker label="Estimate Date" date={date} setDate={setDate} />
         <div className="min-h-[1.25rem] text-sm text-red-500">
           {error && error}
         </div>

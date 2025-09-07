@@ -28,3 +28,19 @@ class ExpenseCreate(BaseModel):
 
 class ExpenseRead(ExpenseCreate):
     id: int
+
+
+class EstimateCreate(BaseModel):
+    description: str
+    amount: float
+    date: date
+    currency: str
+    category: str
+
+    class Config:
+        alias_generator = to_camel
+        allow_population_by_field_name = True
+
+
+class EstimateRead(EstimateCreate):
+    id: int

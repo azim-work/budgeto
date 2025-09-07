@@ -1,4 +1,4 @@
-from models import Expense as ExpensesModel
+from models import Estimate, Expense as ExpensesModel
 from schemas import ExpenseRead, ExpenseCreate
 from fastapi import APIRouter, Depends
 from db.session import get_session
@@ -16,8 +16,27 @@ def get_expenses(db: Session = Depends(get_session)):
 
 @router.post("", response_model=ExpenseRead, status_code=201)
 def add_expense(expense: ExpenseCreate, db: Session = Depends(get_session)):
-    expense = ExpensesModel(**expense.dict())
-    db.add(expense)
-    db.commit()
-    db.refresh(expense)
-    return expense
+    try:
+        # Create expense
+        new_expense = ExpensesModel(**expense.dict())
+        db.add(new_expense)
+        # Assigns new_expense.id without full commit
+        db.flush()
+
+        # Mirror into estimates
+        new_estimate = Estimate(
+            date=new_expense.date,
+            category=new_expense.category,
+            description=new_expense.description,
+            amount=new_expense.amount,
+            currency=new_expense.currency,
+        )
+        db.add(new_estimate)
+
+        db.commit()
+        db.refresh(new_expense)
+        return new_expense
+
+    except Exception:
+        db.rollback()
+        raise

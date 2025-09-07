@@ -36,3 +36,14 @@ class Expense(Base):
     currency = Column(SQLEnum(DefaultCurrencyEnum), nullable=False)
     category = Column(SQLEnum(ExpenseCategory), nullable=False)
     date = Column(Date)
+
+
+class Estimate(Base):
+    __tablename__ = "estimates"
+
+    id = Column(Integer, primary_key=True, index=True)
+    description = Column(String, nullable=False)
+    amount = Column(Float, nullable=False)
+    currency = Column(SQLEnum(DefaultCurrencyEnum), nullable=False)
+    category = Column(SQLEnum(ExpenseCategory), nullable=False)
+    date = Column(Date)

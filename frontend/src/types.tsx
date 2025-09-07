@@ -25,3 +25,5 @@ export type Expense = {
   amount: number;
   currency: Currency;
 };
+
+export type Estimate = Expense;

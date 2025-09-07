@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from routers.settings import router as settings_router
 from routers.expenses import router as expenses_router
+from routers.estimates import router as estimates_router
 from routers.auth import router as auth_router
 from routers.auth import decode_token
 import config
@@ -61,4 +62,5 @@ async def require_auth_cookie(request: Request, call_next):
 
 app.include_router(settings_router, prefix="/settings", tags=["Settings"])
 app.include_router(expenses_router, prefix="/expenses", tags=["Expenses"])
+app.include_router(estimates_router, prefix="/estimates", tags=["Estimates"])
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])

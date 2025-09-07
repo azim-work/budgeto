@@ -1,4 +1,4 @@
-import { useExpenses } from "../context/ExpensesContext";
+import { useEstimates } from "../context/EstimatesContext";
 import {
   Table,
   TableBody,
@@ -10,50 +10,50 @@ import {
 } from "@/components/ui/table";
 import { amountInDefaultCurrency } from "@/lib/utils";
 import { useSettings } from "@/context/SettingsContext";
-import AddExpenseForm from "./AddExpenseForm";
 import { CirclePlus } from "lucide-react";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { useState } from "react";
+import AddEstimateForm from "./AddEstimateForm";
 
-export const ExpensesTable = () => {
+export const EstimatesTable = () => {
   const { defaultCurrency } = useSettings();
-  const { expenses } = useExpenses();
+  const { estimates } = useEstimates();
 
-  const [addExpenseDialogOpen, setAddExpenseDialogOpen] = useState(false);
+  const [addEstimateDialogOpen, setAddEstimateDialogOpen] = useState(false);
 
   return (
     <div className="mt-10">
       <div className="flex justify-between">
-        <div className="text-xl mb-4">Expenses</div>
-        {/* Add Expense */}
+        <div className="text-xl mb-4">Estimates</div>
+        {/* Add Estimate */}
         <Dialog
-          open={addExpenseDialogOpen}
-          onOpenChange={setAddExpenseDialogOpen}
+          open={addEstimateDialogOpen}
+          onOpenChange={setAddEstimateDialogOpen}
         >
           <DialogTrigger asChild>
             <Button>
               <CirclePlus className="w-4 h-4" />
               <span className="sr-only sm:not-sr-only sm:ml-1">
-                Add Expense
+                Add Estimate
               </span>
             </Button>
           </DialogTrigger>
 
           <DialogContent>
-            <AddExpenseForm onClose={() => setAddExpenseDialogOpen(false)} />
+            <AddEstimateForm onClose={() => setAddEstimateDialogOpen(false)} />
           </DialogContent>
         </Dialog>
       </div>
 
       <Table>
-        {expenses.length === 0 && (
+        {estimates.length === 0 && (
           <TableCaption className="text-left mt-4">
-            No expenses yet
+            No estimates yet
           </TableCaption>
         )}
 
-        {expenses.length !== 0 && (
+        {estimates.length !== 0 && (
           <TableHeader>
             <TableRow>
               <TableHead>Date</TableHead>
@@ -66,7 +66,7 @@ export const ExpensesTable = () => {
           </TableHeader>
         )}
         <TableBody>
-          {expenses.map((exp) => (
+          {estimates.map((exp) => (
             <TableRow key={exp.id}>
               <TableCell className="font-medium">{exp.date}</TableCell>
               <TableCell>{exp.category}</TableCell>
