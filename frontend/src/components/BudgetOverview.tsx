@@ -1,5 +1,6 @@
 import { useSettings } from "@/context/SettingsContext";
 import { useExpenses } from "@/context/ExpensesContext";
+import { convertAmountToDefaultCurrency } from "@/lib/utils";
 import { StatCard } from "./ui/StatCard";
 import { useDefaultCurrencyAmountStr } from "@/hooks/useDefaultCurrencyAmountStr";
 
