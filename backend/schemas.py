@@ -1,3 +1,4 @@
+from enum import Enum
 from pydantic import BaseModel
 from models import DefaultCurrencyEnum
 from pydantic.alias_generators import to_camel
@@ -44,3 +45,19 @@ class EstimateCreate(BaseModel):
 
 class EstimateRead(EstimateCreate):
     id: int
+
+
+class EstimateSource(str, Enum):
+    EXPENSE = "expense"
+    ESTIMATE = "estimate"
+
+
+class Combined(BaseModel):
+    id: int
+    description: str
+    amount: float
+    currency: str
+    category: str
+    date: date
+
+    source: EstimateSource

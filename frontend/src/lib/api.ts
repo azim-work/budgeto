@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Settings, Expense, Estimate } from "@/types";
+import type { Settings, Expense, Estimate, Combined } from "@/types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -36,8 +36,8 @@ export async function fetchExpenses(): Promise<Expense[]> {
   return res.data;
 }
 
-export async function fetchEstimates(): Promise<Expense[]> {
-  const res = await axios.get<Expense[]>(`${API_BASE_URL}/estimates`);
+export async function fetchEstimates(): Promise<Combined[]> {
+  const res = await axios.get<Combined[]>(`${API_BASE_URL}/estimates/combined`);
   return res.data;
 }
 

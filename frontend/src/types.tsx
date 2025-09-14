@@ -27,3 +27,15 @@ export type Expense = {
 };
 
 export type Estimate = Expense;
+
+export type EstimateSource = "expense" | "estimate";
+
+export type Combined = {
+  id: number;
+  date: string;
+  category: string;
+  description: string;
+  amount: number;
+  currency: Currency;
+  source: EstimateSource;
+};
