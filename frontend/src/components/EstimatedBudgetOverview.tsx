@@ -1,7 +1,7 @@
 import { useSettings } from "@/context/SettingsContext";
 import { useEstimates } from "@/context/EstimatesContext";
 import { useDefaultCurrencyAmountStr } from "@/hooks/useDefaultCurrencyAmountStr";
-import { formatAmount, convertAmountToDefaultCurrency } from "@/lib/utils";
+import { convertAmountToDefaultCurrency } from "@/lib/utils";
 import { StatCard } from "./ui/StatCard";
 
 export const EstimatedBudgetOverview = () => {

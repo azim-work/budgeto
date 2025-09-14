@@ -15,7 +15,6 @@ import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { useState } from "react";
 import AddEstimateForm from "./AddEstimateForm";
-import { convertAmountToDefaultCurrency } from "@/lib/utils";
 
 export const EstimatesTable = () => {
   const { defaultCurrency } = useSettings();
