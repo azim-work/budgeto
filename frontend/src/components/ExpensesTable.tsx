@@ -8,8 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { amountInDefaultCurrency } from "@/lib/utils";
 import { useSettings } from "@/context/SettingsContext";
+import { useDefaultCurrencyAmountStr } from "@/hooks/useDefaultCurrencyAmountStr";
 import AddExpenseForm from "./AddExpenseForm";
 import { CirclePlus } from "lucide-react";
 import { Button } from "./ui/button";
@@ -19,6 +19,9 @@ import { useState } from "react";
 export const ExpensesTable = () => {
   const { defaultCurrency } = useSettings();
   const { expenses } = useExpenses();
+
+  // hook to format amounts in default currency
+  const format = useDefaultCurrencyAmountStr();
 
   const [addExpenseDialogOpen, setAddExpenseDialogOpen] = useState(false);
 
@@ -72,11 +75,7 @@ export const ExpensesTable = () => {
               <TableCell>{exp.category}</TableCell>
               <TableCell>{exp.description}</TableCell>
               <TableCell className="text-right">
-                {amountInDefaultCurrency(
-                  exp.amount,
-                  exp.currency,
-                  defaultCurrency
-                )}
+                {format(exp.amount, exp.currency)}
               </TableCell>
             </TableRow>
           ))}

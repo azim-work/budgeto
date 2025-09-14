@@ -1,25 +1,21 @@
 import { useSettings } from "@/context/SettingsContext";
 import { useExpenses } from "@/context/ExpensesContext";
-import {
-  amountInDefaultCurrency,
-  convertAmountBetweenCurrencies,
-} from "@/lib/utils";
+import { formatAmount, convertAmountToDefaultCurrency } from "@/lib/utils";
 import { StatCard } from "./ui/StatCard";
+import { useDefaultCurrencyAmountStr } from "@/hooks/useDefaultCurrencyAmountStr";
 
 export const BudgetOverview = () => {
   const { budget, defaultCurrency } = useSettings();
   const { expenses } = useExpenses();
 
+  // hook to format amounts in default currency
+  const format = useDefaultCurrencyAmountStr();
+
   const totalSpent = expenses.reduce((sum, exp) => {
     return (
       sum +
-      Number(
-        convertAmountBetweenCurrencies(
-          exp.amount,
-          exp.currency,
-          defaultCurrency
-        )
-      )
+      // amount in default currency
+      convertAmountToDefaultCurrency(exp.amount, exp.currency, defaultCurrency)
     );
   }, 0);
 
@@ -28,23 +24,17 @@ export const BudgetOverview = () => {
   const stats = [
     {
       label: "Remaining",
-      value: amountInDefaultCurrency(
-        remaining,
-        defaultCurrency,
-        defaultCurrency
-      ),
+      value: format(remaining, defaultCurrency),
     },
+
     {
       label: "Spent",
-      value: amountInDefaultCurrency(
-        totalSpent,
-        defaultCurrency,
-        defaultCurrency
-      ),
+      value: format(totalSpent, defaultCurrency),
     },
+
     {
       label: "Budget",
-      value: amountInDefaultCurrency(budget, defaultCurrency, defaultCurrency),
+      value: format(budget, defaultCurrency),
     },
     { label: "Currency", value: defaultCurrency },
   ];

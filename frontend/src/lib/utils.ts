@@ -1,4 +1,4 @@
-import { CONVERSION_RATES, CURRENCY_SYMBOLS, type Currency } from "@/constants";
+import { CONVERSION_RATES, CURRENCY_LOCALES, type Currency } from "@/constants";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -9,32 +9,57 @@ export function cn(...inputs: ClassValue[]) {
 export function convertAmountBetweenCurrencies(
   amount: number,
   fromCurrency: Currency,
-  toCurrency: Currency,
-  decimals: number = 2
-): string {
+  toCurrency: Currency
+): number {
   const fromRate = CONVERSION_RATES[fromCurrency];
   const toRate = CONVERSION_RATES[toCurrency];
-  const converted = (amount / fromRate) * toRate;
-  return Number(converted.toFixed(decimals)).toFixed(decimals);
+  const amountInDefaultCurrency = (amount / fromRate) * toRate;
+
+  return amountInDefaultCurrency;
 }
 
-function formatAmountWithCurrency(
-  amountStr: string,
-  currency: Currency
-): string {
-  const symbol = CURRENCY_SYMBOLS[currency] || "";
-  return `${symbol}${amountStr}`;
-}
-
-export function amountInDefaultCurrency(
+export function convertAmountToDefaultCurrency(
   amount: number,
-  amountCurrency: Currency,
+  fromCurrency: Currency,
   defaultCurrency: Currency
-): string {
+): number {
   const amountInDefaultCurrency = convertAmountBetweenCurrencies(
     amount,
-    amountCurrency,
+    fromCurrency,
     defaultCurrency
   );
-  return formatAmountWithCurrency(amountInDefaultCurrency, defaultCurrency);
+
+  return amountInDefaultCurrency;
+}
+
+export function formatAmountWithCurrency(
+  amount: number,
+  currency: Currency
+): string {
+  const locale = CURRENCY_LOCALES[currency];
+  const formatter = Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  return formatter.format(amount);
+}
+
+export function formatAmount(
+  amount: number,
+  fromCurrency: Currency,
+  defaultCurrency: Currency
+): string {
+  const amountInDefaultCurrency = convertAmountToDefaultCurrency(
+    amount,
+    fromCurrency,
+    defaultCurrency
+  );
+  const formattedAmount = formatAmountWithCurrency(
+    amountInDefaultCurrency,
+    defaultCurrency
+  );
+  return formattedAmount;
 }

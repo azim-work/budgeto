@@ -7,10 +7,10 @@ export const CONVERSION_RATES = {
   INR: 61.34,
 };
 
-export const CURRENCY_SYMBOLS = {
-  CAD: "$",
-  AED: "",
-  INR: "₹",
+export const CURRENCY_LOCALES: Record<Currency, string> = {
+  CAD: "en-CA",
+  INR: "en-IN",
+  AED: "en-AE",
 };
 
 export type Currency = keyof typeof CONVERSION_RATES;

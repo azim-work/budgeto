@@ -8,17 +8,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { amountInDefaultCurrency } from "@/lib/utils";
 import { useSettings } from "@/context/SettingsContext";
+import { useDefaultCurrencyAmountStr } from "@/hooks/useDefaultCurrencyAmountStr";
 import { CirclePlus } from "lucide-react";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { useState } from "react";
 import AddEstimateForm from "./AddEstimateForm";
+import { convertAmountToDefaultCurrency } from "@/lib/utils";
 
 export const EstimatesTable = () => {
   const { defaultCurrency } = useSettings();
   const { estimates } = useEstimates();
+
+  // hook to format amounts in default currency
+  const format = useDefaultCurrencyAmountStr();
 
   const [addEstimateDialogOpen, setAddEstimateDialogOpen] = useState(false);
 
@@ -72,11 +76,7 @@ export const EstimatesTable = () => {
               <TableCell>{exp.category}</TableCell>
               <TableCell>{exp.description}</TableCell>
               <TableCell className="text-right">
-                {amountInDefaultCurrency(
-                  exp.amount,
-                  exp.currency,
-                  defaultCurrency
-                )}
+                {format(exp.amount, exp.currency)}
               </TableCell>
             </TableRow>
           ))}

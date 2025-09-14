@@ -57,9 +57,12 @@ export default function SettingsContent({ onClose }: SettingsContentProps) {
       newCurrency as Currency
     );
 
+    // rounding
+    const newBudgetRounded = Number(newBudget.toFixed(2));
+
     setLocalCurrency(newCurrency as Currency);
     // Set the new budget based on the new currency
-    setLocalBudget(Number(newBudget));
+    setLocalBudget(newBudgetRounded);
   }
 
   return (
