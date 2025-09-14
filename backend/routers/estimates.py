@@ -38,9 +38,7 @@ def get_estimates_combined(db: Session = Depends(get_session)):
                 source=EstimateSource.EXPENSE,
             )
         )
-        print(f"added: {exp.description}")
 
-    print("---")
     # what if scenarios
     estimates = db.query(EstimateModel).all()
     for est in estimates:
@@ -55,8 +53,9 @@ def get_estimates_combined(db: Session = Depends(get_session)):
                 source=EstimateSource.ESTIMATE,
             )
         )
-        print(f"added: {est.description}")
 
+    # sort by date
+    combined.sort(key=lambda est: est.date)
     return combined
 
 

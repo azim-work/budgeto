@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.get("", response_model=List[ExpenseRead])
 def get_expenses(db: Session = Depends(get_session)):
-    return db.query(ExpensesModel).all()
+    return db.query(ExpensesModel).order_by(ExpensesModel.date).all()
 
 
 @router.post("", response_model=ExpenseRead, status_code=201)
@@ -20,4 +20,5 @@ def add_expense(expense: ExpenseCreate, db: Session = Depends(get_session)):
     db.add(expense)
     db.commit()
     db.refresh(expense)
+
     return expense
