@@ -69,13 +69,19 @@ export const EstimatesTable = () => {
           </TableHeader>
         )}
         <TableBody>
-          {estimates.map((exp) => (
-            <TableRow key={exp.id}>
-              <TableCell className="font-medium">{exp.date}</TableCell>
-              <TableCell>{exp.category}</TableCell>
-              <TableCell>{exp.description}</TableCell>
+          {estimates.map((est) => (
+            <TableRow
+              key={est.id}
+              // when it's an estimate, make it lighter and in italics
+              className={
+                est.source === "estimate" ? "text-muted-foreground italic" : ""
+              }
+            >
+              <TableCell className="font-medium">{est.date}</TableCell>
+              <TableCell>{est.category}</TableCell>
+              <TableCell>{est.description}</TableCell>
               <TableCell className="text-right">
-                {format(exp.amount, exp.currency)}
+                {format(est.amount, est.currency)}
               </TableCell>
             </TableRow>
           ))}
