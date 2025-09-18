@@ -40,7 +40,7 @@ export const BudgetOverview = () => {
   ];
 
   return (
-    <div className="flex gap-2 outline mb-8">
+    <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-8 ">
       {stats.map((stat) => (
         <StatCard key={stat.label} label={stat.label} value={stat.value} />
       ))}

@@ -19,7 +19,7 @@ export default function Header() {
   const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
 
   return (
-    <header className="flex justify-between items-center p-4 border-b">
+    <header className="flex justify-between items-center p-4 ">
       <h1 className="text-3xl font-semibold">Budgeto</h1>
       <HeaderTabs />
 
