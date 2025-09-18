@@ -1,7 +1,11 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export function HeaderTabs() {
+interface HeaderTabsProps {
+  className?: string;
+}
+
+export function HeaderTabs({ className }: HeaderTabsProps) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -18,8 +22,12 @@ export function HeaderTabs() {
   };
 
   return (
-    <Tabs defaultValue={currentTab} onValueChange={handleTabChange}>
-      <TabsList>
+    <Tabs
+      defaultValue={currentTab}
+      onValueChange={handleTabChange}
+      className={className}
+    >
+      <TabsList className="!grid !grid-cols-2 !w-full !bg-muted !p-0 !rounded-lg overflow-hidden">
         <TabsTrigger value="expenses" onClick={() => navigate("/expenses")}>
           Expenses
         </TabsTrigger>
