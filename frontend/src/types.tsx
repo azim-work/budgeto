@@ -17,7 +17,7 @@ export const EXPENSE_CATEGORIES = [
 
 export type ExpenseCategory = (typeof EXPENSE_CATEGORIES)[number];
 
-export type Expense = {
+export type BaseItem = {
   id: number;
   date: string;
   category: string;
@@ -26,7 +26,10 @@ export type Expense = {
   currency: Currency;
 };
 
-export type Estimate = Expense;
+export type Expense = BaseItem & { type: "expense" };
+export type Estimate = BaseItem & { type: "estimate" };
+
+export type BudgetItem = Expense | Estimate;
 
 export type EstimateSource = "expense" | "estimate";
 

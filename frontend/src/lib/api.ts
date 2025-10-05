@@ -33,12 +33,14 @@ export async function saveSettings(settings: Settings): Promise<void> {
 
 export async function fetchExpenses(): Promise<Expense[]> {
   const res = await axios.get<Expense[]>(`${API_BASE_URL}/expenses`);
-  return res.data;
+  // enrich with type for frontend
+  return res.data.map((item) => ({ ...item, type: "expense" }));
 }
 
 export async function fetchEstimates(): Promise<Combined[]> {
   const res = await axios.get<Combined[]>(`${API_BASE_URL}/estimates/combined`);
-  return res.data;
+  // enrich with type for frontend
+  return res.data.map((item) => ({ ...item, type: "estimate" }));
 }
 
 export async function addExpense(
@@ -51,6 +53,6 @@ export async function addExpense(
 export async function addEstimate(
   estimate: Omit<Estimate, "id">
 ): Promise<Estimate> {
-  const res = await axios.post<Expense>(`${API_BASE_URL}/estimates`, estimate);
+  const res = await axios.post<Estimate>(`${API_BASE_URL}/estimates`, estimate);
   return res.data;
 }

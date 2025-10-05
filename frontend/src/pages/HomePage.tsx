@@ -1,4 +1,4 @@
-import { ExpensesTable } from "@/components/ExpensesTable";
+import { ExpensesList } from "@/components/ExpensesList";
 import { BudgetOverview } from "@/components/BudgetOverview";
 import Header from "@/components/Header";
 
@@ -8,7 +8,7 @@ function HomePage() {
       <div className="text-lg font-semibold">
         <Header />
         <BudgetOverview />
-        <ExpensesTable />
+        <ExpensesList />
       </div>
     </div>
   );

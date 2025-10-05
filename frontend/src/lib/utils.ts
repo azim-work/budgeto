@@ -1,6 +1,7 @@
 import { CONVERSION_RATES, CURRENCY_LOCALES, type Currency } from "@/constants";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { capitalize } from "lodash";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -62,4 +63,8 @@ export function formatAmount(
     defaultCurrency
   );
   return formattedAmount;
+}
+
+export function formatStringCase(input: string): string {
+  return capitalize(input);
 }
