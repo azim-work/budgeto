@@ -1,4 +1,3 @@
-import { EstimatesTable } from "@/components/EstimatesTable";
 import { EstimatesList } from "@/components/EstimatesList";
 import { EstimatedBudgetOverview } from "@/components/EstimatedBudgetOverview";
 import Header from "@/components/Header";
