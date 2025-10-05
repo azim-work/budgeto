@@ -13,6 +13,7 @@ import { useEstimates } from "@/context/EstimatesContext";
 
 import { useSettings } from "@/context/SettingsContext";
 import { useDefaultCurrencyAmountStr } from "@/hooks/useDefaultCurrencyAmountStr";
+import { formatDateReadable } from "@/lib/utils/dateUtils";
 
 interface BudgetItemsListDesktopProps {
   type: string;
@@ -25,7 +26,7 @@ export default function BudgetItemsListDesktop({
   const { expenses } = useExpenses();
   const { estimates } = useEstimates();
 
-  const budgetItems = type === "expense" ? expenses : estimates;
+  const budgetItems = type === "expenses" ? expenses : estimates;
 
   // hook to format amounts in default currency
   const format = useDefaultCurrencyAmountStr();
@@ -48,13 +49,23 @@ export default function BudgetItemsListDesktop({
         </TableHeader>
       )}
       <TableBody>
-        {budgetItems.map((exp) => (
-          <TableRow key={exp.id}>
-            <TableCell className="font-medium">{exp.date}</TableCell>
-            <TableCell>{exp.category}</TableCell>
-            <TableCell>{exp.description}</TableCell>
+        {budgetItems.map((budgetItem) => (
+          <TableRow
+            key={budgetItem.id}
+            // when it's an estimate, make it lighter and in italics
+            className={
+              "source" in budgetItem && budgetItem.source === "estimate"
+                ? "text-muted-foreground italic"
+                : ""
+            }
+          >
+            <TableCell className="font-medium">
+              {formatDateReadable(budgetItem.date)}
+            </TableCell>
+            <TableCell>{budgetItem.category}</TableCell>
+            <TableCell>{budgetItem.description}</TableCell>
             <TableCell className="text-right">
-              {format(exp.amount, exp.currency)}
+              {format(budgetItem.amount, budgetItem.currency)}
             </TableCell>
           </TableRow>
         ))}
