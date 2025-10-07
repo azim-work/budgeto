@@ -1,6 +1,12 @@
 from models import Estimate as EstimateModel
 from models import Expense as ExpenseModel
-from schemas import EstimateRead, EstimateCreate, Combined, EstimateSource
+from schemas import (
+    BudgetItemsRead,
+    ExpenseRead,
+    EstimateRead,
+    EstimateCreate,
+    SourceType,
+)
 from fastapi import APIRouter, Depends
 from db.session import get_session
 from sqlalchemy.orm import Session
@@ -20,43 +26,43 @@ Combine both expenses and estimates to one "what-if" scenario
 """
 
 
-@router.get("/combined", response_model=List[Combined])
+@router.get("/all", response_model=List[BudgetItemsRead])
 def get_estimates_combined(db: Session = Depends(get_session)):
-    combined: List[Combined] = []
+    budget_items: List[EstimateRead] = []
     # locked in transactions
     expenses = db.query(ExpenseModel).all()
 
     for exp in expenses:
-        combined.append(
-            Combined(
+        budget_items.append(
+            ExpenseRead(
                 id=exp.id,
                 description=exp.description,
                 amount=exp.amount,
                 currency=exp.currency,
                 category=exp.category,
                 date=exp.date,
-                source=EstimateSource.EXPENSE,
+                source=SourceType.EXPENSE,
             )
         )
 
     # what if scenarios
     estimates = db.query(EstimateModel).all()
     for est in estimates:
-        combined.append(
-            Combined(
+        budget_items.append(
+            EstimateRead(
                 id=est.id,
                 description=est.description,
                 amount=est.amount,
                 currency=est.currency,
                 category=est.category,
                 date=est.date,
-                source=EstimateSource.ESTIMATE,
+                source=SourceType.ESTIMATE,
             )
         )
 
     # sort by date
-    combined.sort(key=lambda est: est.date)
-    return combined
+    budget_items.sort(key=lambda est: est.date)
+    return budget_items
 
 
 @router.post("", response_model=EstimateRead, status_code=201)

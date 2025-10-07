@@ -1,10 +1,10 @@
 import { fetchEstimates } from "@/lib/api";
-import type { Combined } from "@/types";
+import type { BudgetItem } from "@/types";
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 type EstimatesContextType = {
-  estimates: Combined[];
+  estimates: BudgetItem[];
   refreshEstimates: () => void;
 };
 
@@ -17,7 +17,7 @@ export const EstimatesProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [estimates, setEstimates] = useState<Combined[]>([]);
+  const [estimates, setEstimates] = useState<BudgetItem[]>([]);
 
   const refreshEstimates = async () => {
     try {

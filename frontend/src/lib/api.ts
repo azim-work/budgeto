@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Settings, Expense, Estimate, Combined } from "@/types";
+import type { Settings, BudgetItem } from "@/types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -31,28 +31,31 @@ export async function saveSettings(settings: Settings): Promise<void> {
   await axios.put(`${API_BASE_URL}/settings`, settings);
 }
 
-export async function fetchExpenses(): Promise<Expense[]> {
-  const res = await axios.get<Expense[]>(`${API_BASE_URL}/expenses`);
+export async function fetchExpenses(): Promise<BudgetItem[]> {
+  const res = await axios.get<BudgetItem[]>(`${API_BASE_URL}/expenses`);
   // enrich with type for frontend
   return res.data.map((item) => ({ ...item, type: "expense" }));
 }
 
-export async function fetchEstimates(): Promise<Combined[]> {
-  const res = await axios.get<Combined[]>(`${API_BASE_URL}/estimates/combined`);
+export async function fetchEstimates(): Promise<BudgetItem[]> {
+  const res = await axios.get<BudgetItem[]>(`${API_BASE_URL}/estimates/all`);
   // enrich with type for frontend
   return res.data.map((item) => ({ ...item, type: "estimate" }));
 }
 
 export async function addExpense(
-  expense: Omit<Expense, "id">
-): Promise<Expense> {
-  const res = await axios.post<Expense>(`${API_BASE_URL}/expenses`, expense);
+  expense: Omit<BudgetItem, "id">
+): Promise<BudgetItem> {
+  const res = await axios.post<BudgetItem>(`${API_BASE_URL}/expenses`, expense);
   return res.data;
 }
 
 export async function addEstimate(
-  estimate: Omit<Estimate, "id">
-): Promise<Estimate> {
-  const res = await axios.post<Estimate>(`${API_BASE_URL}/estimates`, estimate);
+  estimate: Omit<BudgetItem, "id">
+): Promise<BudgetItem> {
+  const res = await axios.post<BudgetItem>(
+    `${API_BASE_URL}/estimates`,
+    estimate
+  );
   return res.data;
 }

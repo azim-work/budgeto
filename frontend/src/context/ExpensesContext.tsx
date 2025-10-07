@@ -1,10 +1,10 @@
 import { fetchExpenses } from "@/lib/api";
-import type { Expense } from "@/types";
+import type { BudgetItem } from "@/types";
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 type ExpensesContextType = {
-  expenses: Expense[];
+  expenses: BudgetItem[];
   refreshExpenses: () => void;
 };
 
@@ -17,7 +17,7 @@ export const ExpensesProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [expenses, setExpenses] = useState<BudgetItem[]>([]);
 
   const refreshExpenses = async () => {
     try {
