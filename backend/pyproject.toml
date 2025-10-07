@@ -3,7 +3,7 @@ name = "backend"
 version = "0.1.0"
 description = "Backend for Budgeto: seamlessly track your budget and expenses."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
     "bcrypt>=4.3.0",
     "fastapi>=0.116.1",
