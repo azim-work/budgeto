@@ -1,11 +1,11 @@
 import { formatDateReadable } from "@/lib/utils/dateUtils";
-import type { BudgetItem, Combined } from "@/types";
+import type { BudgetItem } from "@/types";
 import BudgetItemCard from "./BudgetItemCard";
 import { Separator } from "../ui/custom/separator";
 
 interface BudgetItemsOnADayProps {
   date: string;
-  budgetItems: (BudgetItem | Combined)[];
+  budgetItems: BudgetItem[];
 }
 
 export default function ExpensesOnADay({

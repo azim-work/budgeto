@@ -11,7 +11,7 @@ import { useSettings } from "@/context/SettingsContext";
 import { CONVERSION_RATES, type Currency } from "@/constants";
 import {
   EXPENSE_CATEGORIES,
-  type Estimate,
+  type BudgetItem,
   type ExpenseCategory,
 } from "@/types";
 import { DatePicker } from "./DatePicker";
@@ -62,7 +62,7 @@ export default function AddEstimateForm({ onClose }: AddEstimateFormProps) {
         category: category,
         date: date?.toISOString().split("T")[0], // Format date as YYYY-MM-DD
       };
-      await addEstimate(payload as Omit<Estimate, "id">);
+      await addEstimate(payload as Omit<BudgetItem, "id">);
       refreshEstimates();
       toast.success("Estimate submitted");
       onClose();

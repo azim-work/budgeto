@@ -1,9 +1,9 @@
-import type { BudgetItem, Combined } from "@/types";
+import type { BudgetItem } from "@/types";
 
 export default function groupByDate(
-  budgetItems: (BudgetItem | Combined)[]
-): Record<string, (BudgetItem | Combined)[]> {
-  const groups: Record<string, (BudgetItem | Combined)[]> = {};
+  budgetItems: BudgetItem[]
+): Record<string, BudgetItem[]> {
+  const groups: Record<string, BudgetItem[]> = {};
 
   budgetItems.forEach((item) => {
     if (!groups[item.date]) groups[item.date] = [];

@@ -11,7 +11,7 @@ import { useSettings } from "@/context/SettingsContext";
 import { CONVERSION_RATES, type Currency } from "@/constants";
 import {
   EXPENSE_CATEGORIES,
-  type Expense,
+  type BudgetItem,
   type ExpenseCategory,
 } from "@/types";
 import { DatePicker } from "./DatePicker";
@@ -64,7 +64,7 @@ export default function AddExpenseForm({ onClose }: AddExpenseFormProps) {
         category: category,
         date: date?.toISOString().split("T")[0], // Format date as YYYY-MM-DD
       };
-      await addExpense(payload as Omit<Expense, "id">);
+      await addExpense(payload as Omit<BudgetItem, "id">);
       refreshExpenses();
       // Also refresh estimates, since this expense will also be added to the expenses table
       refreshEstimates();
