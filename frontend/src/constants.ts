@@ -3,8 +3,8 @@ export const DEFAULT_BUDGET: number = 5000;
 // Relative to CAD
 export const CONVERSION_RATES = {
   CAD: 1,
-  AED: 2.73,
-  INR: 61.34,
+  AED: 2.62,
+  INR: 62.62,
 };
 
 export const CURRENCY_LOCALES: Record<Currency, string> = {
