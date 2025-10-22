@@ -19,12 +19,13 @@ export const BudgetOverview = () => {
     );
   }, 0);
 
-  const remaining = Math.max(0, budget - totalSpent);
+  const remaining = budget - totalSpent;
 
   const stats = [
     {
       label: "Remaining",
       value: format(remaining, defaultCurrency),
+      className: remaining < 0 ? "text-red-700" : "text-green-600",
     },
 
     {
@@ -42,7 +43,12 @@ export const BudgetOverview = () => {
   return (
     <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-8 ">
       {stats.map((stat) => (
-        <StatCard key={stat.label} label={stat.label} value={stat.value} />
+        <StatCard
+          key={stat.label}
+          label={stat.label}
+          value={stat.value}
+          className={stat.className}
+        />
       ))}
     </div>
   );
