@@ -7,7 +7,7 @@ from schemas import (
     EstimateCreate,
     SourceType,
 )
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status, HTTPException
 from db.session import get_session
 from sqlalchemy.orm import Session
 from typing import List
@@ -72,3 +72,17 @@ def add_estimate(estimate: EstimateCreate, db: Session = Depends(get_session)):
     db.commit()
     db.refresh(estimate)
     return estimate
+
+
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_estimate(id: int, db: Session = Depends(get_session)):
+    estimate = db.get(EstimateModel, id)
+
+    if not estimate:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Estimate not found"
+        )
+
+    db.delete(estimate)
+    db.commit()
+    return

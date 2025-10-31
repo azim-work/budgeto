@@ -65,6 +65,6 @@ export function formatAmount(
   return formattedAmount;
 }
 
-export function formatStringCase(input: string): string {
+export function capitalizeFirstLetter(input: string): string {
   return capitalize(input);
 }

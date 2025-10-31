@@ -1,4 +1,4 @@
-import { fetchExpenses } from "@/lib/api";
+import { fetchExpenses, deleteExpense as deleteExpenseApi } from "@/lib/api";
 import type { BudgetItem } from "@/types";
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 type ExpensesContextType = {
   expenses: BudgetItem[];
   refreshExpenses: () => void;
+  deleteExpense: (expenseId: number) => void;
 };
 
 const ExpensesContext = createContext<ExpensesContextType | undefined>(
@@ -32,8 +33,19 @@ export const ExpensesProvider = ({
     refreshExpenses();
   }, []);
 
+  const deleteExpense = async (expenseId: number) => {
+    try {
+      await deleteExpenseApi(expenseId);
+      await refreshExpenses();
+    } catch (err) {
+      console.error("Failed to delete estimate: ", err);
+    }
+  };
+
   return (
-    <ExpensesContext.Provider value={{ expenses, refreshExpenses }}>
+    <ExpensesContext.Provider
+      value={{ expenses, refreshExpenses, deleteExpense }}
+    >
       {children}
     </ExpensesContext.Provider>
   );

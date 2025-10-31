@@ -59,3 +59,13 @@ export async function addEstimate(
   );
   return res.data;
 }
+
+export async function deleteExpense(expenseId: number): Promise<void> {
+  await axios.delete<void>(`${API_BASE_URL}/expenses/${expenseId}`);
+  return;
+}
+
+export async function deleteEstimate(estimateId: number): Promise<void> {
+  await axios.delete<void>(`${API_BASE_URL}/estimates/${estimateId}`);
+  return;
+}
